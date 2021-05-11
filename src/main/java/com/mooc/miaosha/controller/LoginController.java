@@ -1,11 +1,8 @@
 package com.mooc.miaosha.controller;
 
-import com.mooc.miaosha.result.CodeMsg;
 import com.mooc.miaosha.result.Result;
 import com.mooc.miaosha.service.MiaoshaUserService;
-import com.mooc.miaosha.util.ValidatorUtil;
 import com.mooc.miaosha.vo.LoginVo;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,15 @@ public class LoginController {
         return "login";
     }
 
+    /**
+    * @Description: 注意response对象只能在controller中才能注入，因为tomcat调用controller，
+     * 只有tomcat有request和response。@Valid注解表明需要对该参数进行校验，此时会对该注解修饰的实体开启校验功能，
+     * 检查属性上的校验规则
+    * @Param: response对象，loginVo登录实体类
+    * @return: 状态信息
+    * @Author: lishuaiyun
+    * @Date: 2021/5/7
+    */
     @RequestMapping("/do_login")
     @ResponseBody
     public Result<Boolean> doLogin(HttpServletResponse response, @Valid LoginVo loginVo){

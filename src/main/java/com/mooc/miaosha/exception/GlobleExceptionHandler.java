@@ -2,7 +2,6 @@ package com.mooc.miaosha.exception;
 
 import com.mooc.miaosha.result.CodeMsg;
 import com.mooc.miaosha.result.Result;
-import org.springframework.http.HttpRequest;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +16,9 @@ import java.util.List;
 @ResponseBody
 public class GlobleExceptionHandler {
 
+    /**
+     * 指明该方法处理Exception，即所有异常
+     * */
     @ExceptionHandler(value = Exception.class)
     public Result<String> exceptionHandler(HttpServletRequest request,Exception e){
         System.out.println(e);

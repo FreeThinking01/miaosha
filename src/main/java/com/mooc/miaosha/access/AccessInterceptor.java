@@ -1,11 +1,6 @@
 package com.mooc.miaosha.access;
 
-import java.io.OutputStream;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
 import com.mooc.miaosha.domain.MiaoshaUser;
 import com.mooc.miaosha.redis.AccessKey;
 import com.mooc.miaosha.redis.RedisService;
@@ -18,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.alibaba.fastjson.JSON;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 
 
 @Service
@@ -67,7 +65,10 @@ public class AccessInterceptor  extends HandlerInterceptorAdapter{
 		}
 		return true;
 	}
-	
+
+	/**
+	 * 限流提醒
+	 * */
 	private void render(HttpServletResponse response, CodeMsg cm)throws Exception {
 		response.setContentType("application/json;charset=UTF-8");
 		OutputStream out = response.getOutputStream();

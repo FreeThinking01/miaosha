@@ -7,7 +7,8 @@ import javax.validation.constraints.NotNull;
 
 public class LoginVo {
 
-    //用于接收登录参数的实体类
+    //用于接收登录参数的实体类，属性字段的校验
+    // @NotNull 限制非空 @Length(min = 32) 限制最小长度 @isMobile是自定义注解
 
     @NotNull
     @IsMobile

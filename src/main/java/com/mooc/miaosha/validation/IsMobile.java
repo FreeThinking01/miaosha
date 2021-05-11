@@ -1,6 +1,15 @@
 package com.mooc.miaosha.validation;
 
-@java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.ANNOTATION_TYPE, java.lang.annotation.ElementType.CONSTRUCTOR, java.lang.annotation.ElementType.PARAMETER, java.lang.annotation.ElementType.TYPE_USE})
+    /**
+    * @Description: 自定义注解判断Mobile格式，Target指明注解作用对象，
+     * Retention指明存活周期，因为要在程序运行期间参数校验，因此选择Runtime
+     * @Constraint内要求传入一个class参数，这个class是处理逻辑
+    * @Param: 注解内定义注解参数，可用default设定一个默认值
+    * @return:
+    * @Author: lishuaiyun
+    * @Date: 2021/5/7
+    */
+@java.lang.annotation.Target({java.lang.annotation.ElementType.FIELD})
 @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @java.lang.annotation.Documented
 @javax.validation.Constraint(validatedBy = {IsMobileValidator.class})
