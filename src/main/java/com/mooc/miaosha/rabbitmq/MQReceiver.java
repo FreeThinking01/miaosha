@@ -15,6 +15,7 @@ import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,6 +55,11 @@ public class MQReceiver {
         }
         //减库存 下订单 写入秒杀订单
         miaoshaService.miaosha(user, goods);
+    }
+
+    @KafkaListener(topics = "test")
+    public void kafkaListener(String message){
+
     }
 
 //		@RabbitListener(queues=MQConfig.QUEUE)

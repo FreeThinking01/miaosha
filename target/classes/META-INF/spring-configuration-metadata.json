@@ -20,31 +20,26 @@
     },
     {
       "sourceType": "com.mooc.miaosha.redis.RedisConfig",
-      "defaultValue": 0,
       "name": "spring.redis.pool-max-idle",
       "type": "java.lang.Integer"
     },
     {
       "sourceType": "com.mooc.miaosha.redis.RedisConfig",
-      "defaultValue": 0,
       "name": "spring.redis.pool-max-total",
       "type": "java.lang.Integer"
     },
     {
       "sourceType": "com.mooc.miaosha.redis.RedisConfig",
-      "defaultValue": 0,
       "name": "spring.redis.pool-max-wait",
       "type": "java.lang.Integer"
     },
     {
       "sourceType": "com.mooc.miaosha.redis.RedisConfig",
-      "defaultValue": 0,
       "name": "spring.redis.port",
       "type": "java.lang.Integer"
     },
     {
       "sourceType": "com.mooc.miaosha.redis.RedisConfig",
-      "defaultValue": 0,
       "name": "spring.redis.timeout",
       "type": "java.lang.Integer"
     }

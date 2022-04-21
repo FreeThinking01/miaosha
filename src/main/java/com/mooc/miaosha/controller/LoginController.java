@@ -3,6 +3,7 @@ package com.mooc.miaosha.controller;
 import com.mooc.miaosha.result.Result;
 import com.mooc.miaosha.service.MiaoshaUserService;
 import com.mooc.miaosha.vo.LoginVo;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class LoginController {
 //        }
         //登录
         userService.login(response,loginVo);
+
         return Result.success(true);
     }
 

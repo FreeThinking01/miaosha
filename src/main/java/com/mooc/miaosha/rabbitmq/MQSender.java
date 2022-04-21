@@ -1,10 +1,13 @@
 package com.mooc.miaosha.rabbitmq;
 
 import com.mooc.miaosha.redis.RedisService;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.common.protocol.types.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,12 +16,23 @@ public class MQSender {
     private static Logger log = LoggerFactory.getLogger(MQSender.class);
 
     @Autowired
-    AmqpTemplate amqpTemplate ;
+    AmqpTemplate amqpTemplate;
+
+    @Autowired
+    KafkaTemplate<String, String> kafkaTemplate;//创建生产者
 
     public void sendMiaoshaMessage(MiaoshaMessage mm) {
         String msg = RedisService.beanToString(mm);
         log.info("send message:"+msg);
         amqpTemplate.convertAndSend(MQConfig.MIAOSHA_QUEUE, msg);
+    }
+
+    public void sendMessageByKafka(MiaoshaMessage mm){
+
+        String msg = RedisService.beanToString(mm);
+        log.info("send message by kafka:"+msg);
+        kafkaTemplate.send("KafkaTest", msg);
+
     }
 
 //	public void send(Object message) {

@@ -59,6 +59,7 @@
 </body>
 <script>
 function login(){
+	//jqury语法 validate表单校验
 	$("#loginForm").validate({
         submitHandler:function(form){
              doLogin();
@@ -66,11 +67,16 @@ function login(){
     });
 }
 function doLogin(){
+	//正在登录提示
 	g_showLoading();
-	
+
+	//密码值
 	var inputPass = $("#password").val();
+	//获取salt值
 	var salt = g_passsword_salt;
+	//拼接salt和password
 	var str = ""+salt.charAt(0)+salt.charAt(2) + inputPass +salt.charAt(5) + salt.charAt(4);
+	//password md5加密
 	var password = md5(str);
 	
 	$.ajax({
