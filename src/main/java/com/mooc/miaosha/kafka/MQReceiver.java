@@ -1,8 +1,8 @@
-package com.mooc.miaosha.rabbitmq;
-
+package com.mooc.miaosha.kafka;
 
 import com.mooc.miaosha.domain.MiaoshaOrder;
 import com.mooc.miaosha.domain.MiaoshaUser;
+import com.mooc.miaosha.kafka.MiaoshaMessage;
 import com.mooc.miaosha.redis.RedisService;
 import com.mooc.miaosha.service.GoodsService;
 import com.mooc.miaosha.service.MiaoshaService;
@@ -10,18 +10,21 @@ import com.mooc.miaosha.service.OrderService;
 import com.mooc.miaosha.vo.GoodsVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+/**
+ * @program: miaosha
+ * @author: FreeThinking
+ * @create: 2022-04-21 20:12
+ * @description: kafka 接收方
+ **/
 @Service
 public class MQReceiver {
 
-    private static Logger log = LoggerFactory.getLogger(MQReceiver.class);
+
+    private static Logger log = LoggerFactory.getLogger(com.mooc.miaosha.kafka.MQReceiver.class);
 
     @Autowired
     RedisService redisService;
@@ -35,7 +38,7 @@ public class MQReceiver {
     @Autowired
     MiaoshaService miaoshaService;
 
-    @RabbitListener(queues=MQConfig.MIAOSHA_QUEUE)
+    @KafkaListener(topics = MQConfig.MIAOSHA_TOPIC, groupId = MQConfig.MIAOSHA_GROUP)
     public void receive(String message) {
         log.info("receive message:"+message);
         MiaoshaMessage mm  = RedisService.stringToBean(message, MiaoshaMessage.class);
@@ -56,30 +59,4 @@ public class MQReceiver {
         //减库存 下订单 写入秒杀订单
         miaoshaService.miaosha(user, goods);
     }
-
-    @KafkaListener(topics = "test")
-    public void kafkaListener(String message){
-
-    }
-
-//		@RabbitListener(queues=MQConfig.QUEUE)
-//		public void receive(String message) {
-//			log.info("receive message:"+message);
-//		}
-//
-//		@RabbitListener(queues=MQConfig.TOPIC_QUEUE1)
-//		public void receiveTopic1(String message) {
-//			log.info(" topic  queue1 message:"+message);
-//		}
-//
-//		@RabbitListener(queues=MQConfig.TOPIC_QUEUE2)
-//		public void receiveTopic2(String message) {
-//			log.info(" topic  queue2 message:"+message);
-//		}
-//
-//		@RabbitListener(queues=MQConfig.HEADER_QUEUE)
-//		public void receiveHeaderQueue(byte[] message) {
-//			log.info(" header  queue message:"+new String(message));
-//		}
-//
 }
