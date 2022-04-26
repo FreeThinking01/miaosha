@@ -2,7 +2,6 @@ package com.mooc.miaosha.kafka;
 
 import com.mooc.miaosha.domain.MiaoshaOrder;
 import com.mooc.miaosha.domain.MiaoshaUser;
-import com.mooc.miaosha.kafka.MiaoshaMessage;
 import com.mooc.miaosha.redis.RedisService;
 import com.mooc.miaosha.service.GoodsService;
 import com.mooc.miaosha.service.MiaoshaService;
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 
 /**
@@ -39,7 +39,7 @@ public class MQReceiver {
     MiaoshaService miaoshaService;
 
     @KafkaListener(topics = MQConfig.MIAOSHA_TOPIC, groupId = MQConfig.MIAOSHA_GROUP)
-    public void receive(String message) {
+    public void receive(String message, Acknowledgment acknowledgment) {
         log.info("receive message:"+message);
         MiaoshaMessage mm  = RedisService.stringToBean(message, MiaoshaMessage.class);
         MiaoshaUser user = mm.getUser();
@@ -51,12 +51,14 @@ public class MQReceiver {
         if(stock <= 0) {
             return;
         }
-        //判断是否已经秒杀到了
+        //判断是否已经秒杀到了 消费幂等性校验
         MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdAndGoodsId(user.getId(), goodsId);
         if(order != null) {
             return;
         }
         //减库存 下订单 写入秒杀订单
         miaoshaService.miaosha(user, goods);
+        //手动提交偏移量
+        acknowledgment.acknowledge();
     }
 }
